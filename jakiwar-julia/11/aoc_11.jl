@@ -1,3 +1,4 @@
+using Plots
 # open("testinput.txt") do f
 open("input.txt") do f
         matr = zeros(Int, 10,10)
@@ -29,8 +30,33 @@ open("input.txt") do f
         # end
 
         
+        
+        
         iters = 1:1:10000
-        for iter in iters
+        gr()
+        
+        anim = @animate for iter in iters
+            #plotting
+            # data = rand(21,100)
+            iterString = string("Step=", iter)
+            # println(iterString)
+            plt = heatmap(1:size(matr,1),
+                1:size(matr,2), matr,
+                c=:thermal,#cgrad([:blue, :red, :yellow, :white]),
+                clims = (0,10),
+                xlims = (0,10),
+                ylims = (0,10),
+                ticks = false,
+                xlabel=" ",
+                ylabel =" ",  
+                annotations = ([0.3], [-0.5], string("Step=", iter)),
+                # ylabel="y values",
+                title="Advent of Code 11 dec 2021"
+                )
+            # png(plt, "aoc_11.png")
+
+            #end plot
+            
             flashWhile = true
             matr = matr.+1 #increase 1
             
@@ -79,4 +105,5 @@ open("input.txt") do f
         end
         println("flashCounter (answer part 1 ): ", answerPart1)
         println("simulIter (answer part 2 ): ", answerPart2)
+        gif(anim, "aoc_11_progress.gif", fps = 20)
     end
